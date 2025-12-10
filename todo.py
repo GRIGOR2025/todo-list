@@ -22,12 +22,12 @@ class TodoList:
 			json.dump(self.tasks, f, indent=2)  # сохраняем с отступами для читаемости
 		
 
-	def add_ask(self, title):
+	def add_task(self, title):
 		task = {
 			'id': len(self.tasks) + 1,  # уникальный ID = текущее кол-во задач + 1
 			'title': title,  # уникальный ID = текущее кол-во задач + 1
 			'completed': False,  # статус выполнения
-			'created': datetime.now().strftime('%Y-%m-%d %H:%M:%S')}  # текущее время
+			'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')}  # текущее время
 					# %Y - год (4 цифры) - %Y - year (4 digits)
 					# %m - месяц (01-12) - %m - month (01-12)
 					# %H - час (00-23) - %H - hour (00-23)
@@ -35,7 +35,7 @@ class TodoList:
 					# %S - секунды (00-59) - %S - seconds (00-59)
 
 		self.tasks.append(task)  # добавляем задачу в список
-		self.save_taks()  # сохраняем изменения в файл
+		self.save_tasks()  # сохраняем изменения в файл
 		print(f"Задача добавлена (ID: {task['id']})")
 
 
@@ -60,11 +60,11 @@ class TodoList:
 
 	def delete_task(self, task_id):
 		# Создаем новый список БЕЗ удаляемой задачи
-		self.task = [task for task in self.task if task['id'] != task_id]
+		self.tasks = [task for task in self.tasks if task['id'] != task_id]
 		# Обновляем ID оставшихся задач
 		for i, task in enumerate(self.task, 1):  # enumerate дает индекс и элемент
 			task['id'] = i  # перенумеровываем с 1
-		self.self_task()  # сохраняем
+		self.save_tasks()  # сохраняем
 		print(f"Задача {task_id} удалена")
 
 
@@ -82,7 +82,7 @@ def main():
 		choice = input("\nВыберите действие: ")  # получаем выбор пользователя)
 		# Обработка выбора
 		if choice == '1':
-			todo.show_task()
+			todo.show_tasks()
 		elif choice == '2':
 			title = input("Введите задачу: ")
 			if title.strip():
@@ -108,4 +108,4 @@ def main():
 			print("Неверный выбор!")
 
 if __name__ == "__main__":
-	main()
+    main()
