@@ -56,3 +56,56 @@ class TodoList:
 				print(f"Задача {task_id} отмечена как выполненная")
 				return  # выходим из метода
 		print("Задача не найдена")  # если не нашли
+
+
+	def delete_task(self, task_id):
+		# Создаем новый список БЕЗ удаляемой задачи
+		self.task = [task for task in self.task if task['id'] != task_id]
+		# Обновляем ID оставшихся задач
+		for i, task in enumerate(self.task, 1):  # enumerate дает индекс и элемент
+			task['id'] = i  # перенумеровываем с 1
+		self.self_task()  # сохраняем
+		print(f"Задача {task_id} удалена")
+
+
+def main():
+	todo = TodoList()  # создаем объект списка дел
+
+	while True:  # Усли True Показываем меню
+		print("\n=== Список дел ===")
+		print("1. Показать задачи")
+		print("2. Добавить задачу")
+		print("3. Завершить задачу")
+		print("4. Удалить задачу")
+		print("5. Выйти")
+
+		choice = input("\nВыберите действие: ")  # получаем выбор пользователя)
+		# Обработка выбора
+		if choice == '1':
+			todo.show_task()
+		elif choice == '2':
+			title = input("Введите задачу: ")
+			if title.strip():
+				todo.add_task(title)
+			else:
+				print("Задача не может быть пустой!")
+		elif choice == '3':
+			try:
+				task_id = int(input("Введите ID задачи: "))
+				todo.complete_task(task_id)
+			except ValueError:
+				print("Введите корректный ID!")
+		elif choice == '4':
+			try:
+				task_id = int(input("Введите ID задачи: "))
+				todo.delete_task(task_id)
+			except ValueError:
+				print("Введите корректный ID!")
+		elif choice == '5':
+			print("До свидания!")
+			break  # выход из цикла
+		else:
+			print("Неверный выбор!")
+
+if __name__ == "__main__":
+	main()
